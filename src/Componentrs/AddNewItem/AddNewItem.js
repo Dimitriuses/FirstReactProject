@@ -18,23 +18,31 @@ class AddNewItem extends React.Component{
       
     }
 
-    onGender = ()=>{
-        if(this.state.gender === "men"){
-            this.setState({
-                gender:"women"
-            })
+        onGender = ()=>{
+            if(this.state.gender === "men"){
+                this.setState({
+                    gender:"women"
+                })
+            }
+            else{
+                this.setState({
+                    gender:"men"
+                })
+            }
         }
-        else{
-            this.setState({
-                gender:"men"
-            })
+        onSubmit = (e) => {
+            e.preventDefault();
+        
+            this.props.addContact(this.state.name, this.state.description, this.state.gender, this.state.image);
+        };
+        onName = (e) => {
+            //console.log(e.target.value);
+            this.setState({name:e.target.value});
         }
-    }
-    onSubmit = (e) => {
-        e.preventDefault();
-    
-        this.props.addContact(this.state.name, this.state.description, this.state.gender, this.state.image);
-      };
+        onDescription = (e) => {
+            //console.log(e.target.value);
+            this.setState({description:e.target.value});
+        }
     render(){
         
         let link ="https://randomuser.me/api/portraits/"+this.state.gender+"/"+this.state.image+".jpg";
@@ -45,8 +53,8 @@ class AddNewItem extends React.Component{
                         <img class="rounded-circle" src={link} onClick={this.onImage}/>
                     </div>
                     <div class="media-body">
-                        <input name="Name" className="form-control" placeholder="Name..."/>
-                        <input name="Description" className="form-control" placeholder="Description..."/>
+                        <input name="Name" className="form-control" placeholder="Name..." onChange={this.onName}/>
+                        <input name="Description" className="form-control" placeholder="Description..." onChange={this.onDescription}/>
                         <a class="btn" name="GenderBTN" onClick={this.onGender}>gender - {this.state.gender}</a>
                     </div>
                     <div class="media-right align-self-center">
