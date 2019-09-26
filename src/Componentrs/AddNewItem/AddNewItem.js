@@ -1,4 +1,4 @@
-import React from "react";
+import React, {Fragment} from "react";
 import "./AddNewItem.css";
 
 class AddNewItem extends React.Component{
@@ -47,6 +47,7 @@ class AddNewItem extends React.Component{
         
         let link ="https://randomuser.me/api/portraits/"+this.state.gender+"/"+this.state.image+".jpg";
         return(
+            <div>
             <div className="col-md-10 offset-md-1 row-block">
                 <div class="media">
                     <div class="media-left align-self-center">
@@ -58,10 +59,32 @@ class AddNewItem extends React.Component{
                         <a class="btn" name="GenderBTN" onClick={this.onGender}>gender - {this.state.gender}</a>
                     </div>
                     <div class="media-right align-self-center">
-                        <a onClick={this.onSubmit} class="btn btn-danger">Add New Item</a>
+                        <button onClick={this.onSubmit} type="button" class="btn btn-secondary" data-toggle="snackbar" data-style="toast" data-content="Added Complete">
+                            Add New Item
+                        </button>
                     </div>
 
                 </div>
+            </div>
+            {/* <div class="card bg-success">
+                <div class="card-body">
+                <div class="media">
+                    <div class="media-left align-self-center">
+                        <img class="rounded-circle" src={link}/>
+                    </div>
+                    <div class="media-body">
+                        <h4>{this.state.name}</h4>
+                        <p>{this.state.description}</p>
+                    </div>
+                    <div class="media-right align-self-center">
+                        <button type="button" class="close" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+
+                </div>
+                </div>
+            </div> */}
             </div>
         )
     }

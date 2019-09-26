@@ -2,10 +2,13 @@ import React, { Component } from "react";
 import ReactDOM from 'react-dom';
 import './index.css';
 
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+
 import Header from "./Componentrs/Header/Header"
 import ContactList from "./Componentrs/ContactList/ContactList"
 import AddNewItem from "./Componentrs/AddNewItem/AddNewItem";
-
+import About from "./Componentrs/About/About";
+import NotFound from "./Componentrs/NotFound/NotFound"
 
 class App extends Component{
     state = {
@@ -115,15 +118,29 @@ class App extends Component{
         return (
           <section className="row-section">
             <div className="container">
+              <Router>
               <Header />
-
-              <ContactList
-                List={showContacts}
-                onFavoriteChange={this.onFavoriteChange}
-                onContactDelete={this.onContactDelete}
-                onSearch={this.onSearch}
+                <Switch>
+                  <Route path="/about" exact Component={About}/>
+                  <Route path="/" exact render={() => (
+                    <ContactList
+                    List={showContacts}
+                    onFavoriteChange={this.onFavoriteChange}
+                    onContactDelete={this.onContactDelete}
+                    onSearch={this.onSearch}
+                  />
+                  )}
+                />
+                <Route
+                path="/add"
+                exact
+                render={() => <AddNewItem addContact={this.onAddNewItem}/>}
               />
-              <AddNewItem addContact={this.onAddNewItem}/>
+                )}/>
+                <Route component={NotFound} />
+                </Switch>
+              </Router>
+              {/* <AddNewItem addContact={this.onAddNewItem}/> */}
             </div>
           </section>
         );
