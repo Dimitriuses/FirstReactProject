@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import ReactDOM from 'react-dom';
+import { Provider } from "react-redux";
 import './index.css';
 
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
@@ -9,6 +10,12 @@ import ContactList from "./Componentrs/ContactList/ContactList"
 import AddNewItem from "./Componentrs/AddNewItem/AddNewItem";
 import About from "./Componentrs/About/About";
 import NotFound from "./Componentrs/NotFound/NotFound"
+
+import { createStore} from "redux";
+import reducer from "./Reduser/Reduser";
+
+const storeMy = createStore(reducer);
+console.log();
 
 class App extends Component{
     state = {
@@ -116,6 +123,7 @@ class App extends Component{
             this.state.findContact
           );
         return (
+          <Provider store={storeMy}>
           <section className="row-section">
             <div className="container">
               <Router>
@@ -124,9 +132,6 @@ class App extends Component{
                   <Route path="/about" exact Component={About}/>
                   <Route path="/" exact render={() => (
                     <ContactList
-                    List={showContacts}
-                    onFavoriteChange={this.onFavoriteChange}
-                    onContactDelete={this.onContactDelete}
                     onSearch={this.onSearch}
                   />
                   )}
@@ -143,6 +148,7 @@ class App extends Component{
               {/* <AddNewItem addContact={this.onAddNewItem}/> */}
             </div>
           </section>
+          </Provider>
         );
       }
 }

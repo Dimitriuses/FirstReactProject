@@ -1,4 +1,7 @@
 import React from "react";
+import { connect } from "react-redux";
+import {LIST, FAV, DEL, DOUBLE  } from "../../Actions/Action";
+
 
 class ContactListItem extends React.Component{
 
@@ -6,7 +9,8 @@ class ContactListItem extends React.Component{
         btnChange: false,
         btnText: "Contact Now",
         image: this.props.image,
-        favorite: this.props.favorite
+        favorite: this.props.favorite,
+        Item:{}
     }
 
     onBtnClick = () => {
@@ -42,6 +46,20 @@ class ContactListItem extends React.Component{
         });
       
       }
+      /*mapDispatchToProps = dispatch => {
+        return {
+          INC: () => dispatch(INC()),
+          DEC: () => dispatch(DEC()),
+          ZERO: () => {
+            const zeroCounter = 0;
+            dispatch(ZERO(zeroCounter));
+          },
+          DOUBLE: () => {
+            const multi = 2;
+            dispatch(DOUBLE(multi));
+          }
+        };
+      };*/
 
     render() {
         const {id ,name, description, gender, image, onContactDelete} = this.props;
@@ -94,4 +112,4 @@ class ContactListItem extends React.Component{
     };
     
 }
-export default ContactListItem;
+export default /*connect(mapStateToProps, mapDispatchToProps)*/(ContactListItem);

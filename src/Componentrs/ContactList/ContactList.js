@@ -1,15 +1,12 @@
 import React, { Fragment } from "react";
+import { connect } from "react-redux";
+//import {INC, DEC, ZERO, DOUBLE  } from "../../Actions/Action";
 
 import ContactListItem from "../ContactListItem/ContactListItem";
 
 import Search from "../Search/Search";
 
-const ContactList = ({
-  List,
-  onFavoriteChange,
-  onContactDelete,
-  onSearch
-}) => {
+const ContactList = ({ onSearch, List}) => {
   const newItem = List.map((item) => {
     return (
       <ContactListItem
@@ -20,11 +17,10 @@ const ContactList = ({
         image={item.image}
         gender={item.gender}
         favorite={item.favorite}
-        onFavoriteChange={() => onFavoriteChange(item.id)}
-        onContactDelete={() => onContactDelete(item.id)}
       />
     );
   });
+  
   return (
     <Fragment>
       <Search onSearch={onSearch} />
@@ -34,5 +30,11 @@ const ContactList = ({
     </Fragment>
   );
 };
+/*const mapStateToProps = (state) =>{
+  console.log(state);
+  return{
+    List: state.List
+  }
+}*/
 
-export default ContactList;
+export default  /*connect(mapStateToProps)*/(ContactList);
