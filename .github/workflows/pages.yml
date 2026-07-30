@@ -1,0 +1,58 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [master]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      - run: npm ci
+
+      - run: npm test -- --watchAll=false
+        env:
+          CI: true
+
+      # react-scripts 3 builds on webpack 4, which asks OpenSSL for md4; OpenSSL 3
+      # (Node 17+) refuses. This flag is the whole of the retarget.
+      - run: npm run build
+        env:
+          CI: true
+          NODE_OPTIONS: --openssl-legacy-provider
+
+      # Pages has no rewrite rules, so a deep link like /FirstReactProject/about is a
+      # 404 until 404.html serves the same app and BrowserRouter resolves the route.
+      - run: cp build/index.html build/404.html
+
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./build
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
