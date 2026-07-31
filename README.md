@@ -276,6 +276,12 @@ way back**, not `git log --follow`.
   defect.
 - **No test covers the components' click handlers**; the tests cover the store and the
   connected list's rendering.
+- **Deep links into the live demo answer with HTTP 404**, even though they display
+  correctly. GitHub Pages has no rewrite rules, so `/FirstReactProject/about` is served by
+  `404.html` — a copy of `index.html` — with a 404 status. The app boots and the route
+  renders, but crawlers see a 404 and the browser console logs one. `HashRouter` would
+  return 200 for every route at the cost of `#` in every URL; `BrowserRouter` was kept
+  because it is what the 2019 code used.
 
 ## Licence
 
